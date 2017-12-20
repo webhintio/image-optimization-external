@@ -1,0 +1,1 @@
+# sonarwhal-image-optimization-external-
