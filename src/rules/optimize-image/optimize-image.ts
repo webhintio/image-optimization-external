@@ -30,11 +30,11 @@ const rule: IRuleBuilder = {
 
         const notifyError = async (resource: string, error: any) => {
             debug(`Error getting analyzing result for ${resource}.`, error);
+
             await context.report(resource, null, `Couldn't get results for ${resource}. Error: ${error.message}`);
         };
 
         const validateTargetFetchStart = (targetFetchStart: ITargetFetchStart) => {
-
             const { resource }: { resource: string } = targetFetchStart;
 
             debug(`Validating rule.`);
@@ -64,7 +64,6 @@ const rule: IRuleBuilder = {
 
         const valiateScanEnd = async (fetchEnd: IScanEnd) => {
             const { resource }: { resource: string } = fetchEnd;
-            const reportPromises: Array<Promise<void>> = [];
 
             if (!analyzePromise || failed) {
                 return;
@@ -93,13 +92,12 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            unoptimized.forEach((file) => {
+            const reportPromises: Array<Promise<void>> = unoptimized.map((file) => {
                 const { bytes }: { bytes: Bytes } = file;
                 const sizeDiff: number = bytes.savings / 1024;
                 const percentageDiff: number = Math.round((bytes.savings / bytes.input) * 100);
-                const reportPromise: Promise<void> = context.report(file.url, null, `File "${file.name}" can be ${sizeDiff.toFixed(2)}kB (${percentageDiff}%) smaller.`);
 
-                reportPromises.push(reportPromise);
+                return context.report(file.url, null, `File "${file.name}" can be ${sizeDiff.toFixed(2)}kB (${percentageDiff}%) smaller.`);
             });
 
             await Promise.all(reportPromises);

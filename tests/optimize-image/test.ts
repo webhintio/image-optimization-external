@@ -57,7 +57,7 @@ const allOptimizedResult = summaryWrapper([optimizedImage]);
 const canBeOptimizedResult = summaryWrapper([optimizedImage, notOptimizedImage]);
 
 const messages = {
-    canBeOptimized: `File "bigImage.png" can be 1.22kB (30%) smaller.`,
+    canBeOptimized: `File "bigImage.png" can be 1.19kB (30%) smaller.`,
     error: `Couldn't get results for http://localhost/. Error: Error with optimizing images.`
 };
 
