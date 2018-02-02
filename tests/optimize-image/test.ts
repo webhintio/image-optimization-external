@@ -1,6 +1,7 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { delay } from 'sonarwhal/dist/src/lib/utils/misc';
 
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import * as mock from 'mock-require';
@@ -61,7 +62,8 @@ const messages = {
     error: `Couldn't get results for http://localhost/. Error: Error with optimizing images.`
 };
 
-const mockRequestJSON = (response?) => {
+const mockRequestJSON = async (response?) => {
+    await delay(400); // So that the chrome gets launchd properly in serial tests.
     const mockedRequestJSON = () => {
         if (!response) {
             return Promise.reject(new Error(`Error with optimizing images.`));
@@ -76,24 +78,24 @@ const mockRequestJSON = (response?) => {
 
 const tests: Array<IRuleTest> = [
     {
-        before() {
-            mockRequestJSON();
+        async before() {
+            await mockRequestJSON();
         },
         name: 'Submit data to the api endpoint throws an error',
         reports: [{ message: messages.error }],
         serverConfig: generateHTMLPage()
     },
     {
-        before() {
-            mockRequestJSON(canBeOptimizedResult);
+        async before() {
+            await mockRequestJSON(canBeOptimizedResult);
         },
         name: `One of the two images is not optimized`,
         reports: [{ message: messages.canBeOptimized }],
         serverConfig: generateHTMLPage()
     },
     {
-        before() {
-            mockRequestJSON(allOptimizedResult);
+        async before() {
+            await mockRequestJSON(allOptimizedResult);
         },
         name: `All images are optimized`,
         serverConfig: generateHTMLPage()
