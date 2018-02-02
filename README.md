@@ -1,1 +1,3 @@
-# sonarwhal-image-optimization-external-
+# optimize-image (`optimize-image`)
+
+Optimize images.
