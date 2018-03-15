@@ -1,12 +1,11 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import { delay } from 'sonarwhal/dist/src/lib/utils/misc';
 
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import * as mock from 'mock-require';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = 'optimize-image';
 const notOptimizedImage = {
     bytes: {
         input: 4054,
@@ -76,7 +75,7 @@ const mockRequestJSON = async (response?) => {
     process.env.SERVICE_USERNAME = 'test'; // eslint-disable-line no-process-env
 };
 
-const tests: Array<IRuleTest> = [
+const tests: Array<RuleTest> = [
     {
         async before() {
             await mockRequestJSON();
