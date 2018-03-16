@@ -61,7 +61,7 @@
     "sonarwhal": "^1.0.5"
   },
   "repository": "",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "dependencies": {
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
