@@ -1,5 +1,4 @@
 {
-  "author": "sonarwhal",
   "ava": {
     "babel": {
       "presets": []
@@ -10,6 +9,10 @@
       "dist/tests/**/*.js"
     ],
     "timeout": "1m"
+  },
+  "dependencies": {
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "description": "Optimize images.",
   "devDependencies": {
@@ -31,39 +34,39 @@
     "npm-run-all": "^4.1.2",
     "on-headers": "^1.0.1",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^1.0.5",
+    "sonarwhal": "^1.1.0",
     "typescript": "^2.7.1",
     "typescript-eslint-parser": "^12.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
   },
+  "files": [
+    "dist/src",
+    "npm-shrinkwrap.json"
+  ],
+  "homepage": "https://sonarwhal.com/",
   "keywords": [
     "rule",
     "sonarwhal"
   ],
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-optimize-image",
+  "peerDependencies": {
+    "sonarwhal": "^1.1.0"
+  },
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc --outDir dist",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:ts": "tsc",
     "clean": "rimraf dist",
     "test": "npm run lint && npm run build && ava",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint --ext md --ext ts --ignore-pattern dist .",
     "lint:md": "markdownlint README.md",
     "watch:ts": "npm run build:ts -- --watch",
-    "init": "npm install && npm run build",
-    "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js"
+    "init": "npm install && npm run build"
   },
-  "peerDependencies": {
-    "sonarwhal": "^1.0.5"
-  },
-  "repository": "",
-  "version": "1.0.0",
-  "dependencies": {
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2"
-  }
+  "version": "1.0.1"
 }
